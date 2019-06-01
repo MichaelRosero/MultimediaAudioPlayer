@@ -34,7 +34,6 @@ body{
     display: flex;
     background: #7f8c8d;
     align-items: flex-end;
-    background-image: url("../assets/emarosa.jpg");
     background-size: cover;
 }
 

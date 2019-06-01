@@ -2,18 +2,18 @@ class AudioPlayer {
 
     constructor(params) {
 
-        this.songs = [];
         this.queue = [];
         this.player = new Audio();
-        let src = "songs/1.mp3";
-
+        this.song   = new Song('Not more','Elliot',null,'./assets/emarosa.jpg');
+        let src = ["songs/1.mp3"];
+        
         this._gui = {
             progressBar: { value: null, DOMElement: null },
             artistName: { value: null, DOMElement: null },
             songName: { value: null, DOMElement: null },
             currentTime: { value: null, DOMElement: null },
             totalTime: { value: null, DOMElement: null },
-            albumCover: { value: null, DOMElement: null }
+            albumCover: { value: null, DOMElement: null },
         };
 
         if (params.hasOwnProperty("gui")) {
@@ -44,7 +44,10 @@ class AudioPlayer {
         this.player.onloadedmetadata = () => {
             this.gui = {
                 totalTime: { value: this.player.duration, DOMElement: this.gui.totalTime.DOMElement},
-                currentTime: { value: 0, DOMElement: this.gui.currentTime.DOMElement }
+                currentTime: { value: 0, DOMElement: this.gui.currentTime.DOMElement },
+                songName:{value: this.song.name, DOMElement: this.gui.songName.DOMElement},
+                artistName:{value: this.song.artist, DOMElement: this.gui.artistName.DOMElement},
+                albumCover:{value: this.song.file, DOMElement: this.gui.albumCover.DOMElement}
             }
         }
         this.player.ontimeupdate = () => {
@@ -178,17 +181,23 @@ class AudioPlayer {
             }
         }
         this._assignValues(this._gui, elments, actions);
-        this._updateBasigGUIElement(this.gui.totalTime);
-        this._updateBasigGUIElement(this.gui.currentTime);
+        this._updateBasigGUIElement(this.gui.totalTime.DOMElement, this._setToMinsSecond(this.gui.totalTime.value));
+        this._updateBasigGUIElement(this.gui.currentTime.DOMElement,this._setToMinsSecond(this.gui.currentTime.value));
+        this._updateBasigGUIElement(this.gui.songName.DOMElement, this.gui.songName.value);
+        this._updateBasigGUIElement(this.gui.artistName.DOMElement, this.gui.artistName.value);
+        this.gui.albumCover.DOMElement.style.backgroundImage =`url(${this.gui.albumCover.value})`;
     }
 
-    _updateBasigGUIElement(el) {
-        if (el.DOMElement instanceof HTMLElement) {
-            el.DOMElement.innerHTML = this._setToMinsSecond(el.value) ;
+    _updateBasigGUIElement(DOMElement, value) {
+        if (DOMElement instanceof HTMLElement) {
+            DOMElement.innerHTML = value;
         }
     }
 
     get gui() {
         return this._gui;
+    }
+    get songs() {
+        return this._songs;
     }
 }
