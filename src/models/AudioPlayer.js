@@ -180,12 +180,14 @@ class AudioPlayer {
                 }
             }
         }
+
         this._assignValues(this._gui, elments, actions);
+        this.gui.albumCover.DOMElement.style.backgroundImage =`url(${this.gui.albumCover.value})`;
+
         this._updateBasigGUIElement(this.gui.totalTime.DOMElement, this._setToMinsSecond(this.gui.totalTime.value));
         this._updateBasigGUIElement(this.gui.currentTime.DOMElement,this._setToMinsSecond(this.gui.currentTime.value));
         this._updateBasigGUIElement(this.gui.songName.DOMElement, this.gui.songName.value);
         this._updateBasigGUIElement(this.gui.artistName.DOMElement, this.gui.artistName.value);
-        this.gui.albumCover.DOMElement.style.backgroundImage =`url(${this.gui.albumCover.value})`;
     }
 
     _updateBasigGUIElement(DOMElement, value) {
